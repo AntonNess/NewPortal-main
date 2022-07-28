@@ -8,6 +8,7 @@ class Author(models.Model):
     authorUser = models.OneToOneField(User, on_delete=models.CASCADE)
     ratingAuthor = models.SmallIntegerField(default=0)
 
+
     def update_rating(self):
         postRat = self.post_set.aggregate(postRating=Sum('rating'))
         pRat = 0
@@ -54,7 +55,7 @@ class Post(models.Model):
     def preview(self):
         return self.text[0:123] + '...'
     def __str__(self):
-        return self.title
+        return self.title, self.author
 
     def get_absolute_url(self):
         return reverse('post_detail', args=[str(self.pk)])
@@ -80,3 +81,4 @@ class Comment(models.Model):
         self.save()
     def __str__(self):
         return self.text
+
